@@ -26,6 +26,7 @@
                         <button type="submit" onclick="return confirm('Are you Sure?')">Delete Hotel</button>
                     </form>
                 </li>
+                <li><a href="{{ route('detailHotel', $hotel->id) }}">Detail Hotel</a></li>
             @endforeach
         </ul>
     @else

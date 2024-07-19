@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [PageController::class, 'homeUser'])->name('homeUser');
-// Route::get('/detail{hotel_id}', [PageController::class, 'detailHotel'])->name('detailHotel');
+Route::get('/detail/{hotel_id}', [PageController::class, 'detailHotel'])->name('detailHotel');
 
 Route::get('/homeOwner', [PageController::class, 'homeOwner'])->name('homeOwner');
 Route::get('/addHotel', [PageController::class, 'addHotel'])->name('addHotel');
@@ -25,6 +25,8 @@ Route::post('/addHotel', [OwnerController::class, 'addHotel'])->name('postAddHot
 Route::get('/updateHotel/{hotel_id}', [PageController::class, 'updateHotel'])->name('updateHotel');
 Route::put('/updateHotel/{hotel_id}', [OwnerController::class, 'updateHotel'])->name('putUpdateHotel');
 Route::delete('/deleteHotel/{hotel_id}', [OwnerController::class, 'deleteHotel'])->name('deleteHotel');
+Route::get('/addRoom/{hotel_id}', [PageController::class, 'addRoom'])->name('addRoom');
+Route::post('addRoom/{hotel_id}', [OwnerController::class, 'addRoom'])->name('postAddRoom');
 
 Route::get('/homeAdmin', [PageController::class, 'homeAdmin'])->name('homeAdmmin');
 

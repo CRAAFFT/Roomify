@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Hotel;
 use App\Models\Location;
+use App\Models\Room;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -12,7 +13,7 @@ class PageController extends Controller
 {
     public function homeUser()
     {
-        $hotels = Hotel::where('status', 'verified');
+        $hotels = Hotel::where('status', 'verified')->with('location')->get();
         return view('Users.home', compact('hotels'));
     }
 
@@ -26,10 +27,24 @@ class PageController extends Controller
         return view('Auth.login');
     }
 
-    // public function detailHotel($hotelId)
-    // {
-    //     return view('Users.detailHotel');
-    // }
+    public function detailHotel($hotel_id)
+    {
+        $user = Auth::user();
+        $hotel = Hotel::find($hotel_id);
+        if ($user->role == 'owner') 
+        {
+            $rooms = Room::where('hotel_id', $hotel_id)->with('hotel')->get();
+            return view('Owner.detailHotel', compact('rooms', 'hotel'));
+        } 
+        else if ($user->role == 'admin') 
+        {
+            return view('Admin.detailHotel', compact('hotel'));
+        }
+        else
+        {
+            return view('Users.detailHotel', compact('hotel'));
+        }
+    }
 
     public function homeOwner()
     {
@@ -48,6 +63,12 @@ class PageController extends Controller
         $hotel = Hotel::find($hotel_id);
         $locations = Location::orderBy('location_name', 'asc')->get();
         return view('Owner.updateHotel', compact('hotel', 'locations'));
+    }
+
+    public function addRoom($hotel_id)
+    {
+        $hotel = Hotel::find($hotel_id);
+        return view('Owner.addRoom', compact('hotel'));
     }
 
     public function homeAdmin()

@@ -13,6 +13,7 @@ class Hotel extends Model
         'hotel_name',
         'status',
         'image',
+        'description',
         'location_id',
         'user_id',
     ];

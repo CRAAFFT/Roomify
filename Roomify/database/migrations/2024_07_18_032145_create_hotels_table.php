@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('hotel_name');
             $table->string('image');
+            $table->text('description');
             $table->enum('status', ['verified', 'unverified'])->default('unverified');
             $table->foreignId('location_id')->constrained()->onDelete('cascade');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');

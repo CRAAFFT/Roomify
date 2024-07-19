@@ -10,6 +10,8 @@
     @method('PUT')
         <label for="hotel_name">Hotel Name: </label>
         <input type="text" name="hotel_name" required value="{{ $hotel->hotel_name }}">
+        <label for="description">Description</label>
+        <input type="text" name="description" required value="{{ $hotel->description }}">
         <label for="location">Pilih Lokasi:</label>
         <select name="location" id="location">
             @foreach ($locations as $location)
