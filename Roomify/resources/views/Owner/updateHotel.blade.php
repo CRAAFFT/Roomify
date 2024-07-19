@@ -7,6 +7,7 @@
 @section('content')
 <form action="{{ route('putUpdateHotel', $hotel->id) }}" method="POST" enctype="multipart/form-data">
     @csrf
+    @method('PUT')
         <label for="hotel_name">Hotel Name: </label>
         <input type="text" name="hotel_name" required value="{{ $hotel->hotel_name }}">
         <label for="location">Pilih Lokasi:</label>

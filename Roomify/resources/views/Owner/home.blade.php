@@ -17,7 +17,15 @@
                 <li><img src="{{ asset( 'storage' . '/' . $hotel->image) }}" alt="{{ $hotel->hotel_name }}" width="200"></li>
                 <li>{{ $hotel->hotel_name }}</li>
                 <li>{{ $hotel->location->location_name }}</li>
+                <li>Status: {{ $hotel->status }}</li>
                 <li><a href="{{ route('updateHotel', $hotel->id) }}">Update Hotel</a></li>
+                <li>
+                    <form action="{{ route('deleteHotel', $hotel->id) }}" method="POST">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" onclick="return confirm('Are you Sure?')">Delete Hotel</button>
+                    </form>
+                </li>
             @endforeach
         </ul>
     @else

@@ -72,4 +72,12 @@ class OwnerController extends Controller
             return redirect()->back()->with('error', 'Please upload an image');
         }
     }
+
+    public function deleteHotel($hotel_id)
+    {
+        $hotel = Hotel::find($hotel_id);
+        $hotel->delete();
+
+        return redirect()->route('homeOwner');
+    }
 }
