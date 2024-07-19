@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Hotel;
 use App\Models\Location;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -41,6 +42,12 @@ class PageController extends Controller
     {
         $locations = Location::orderBy('location_name', 'asc')->get();
         return view('Owner.addHotel', compact('locations'));
+    }
+    public function updateHotel($hotel_id)
+    {
+        $hotel = Hotel::find($hotel_id);
+        $locations = Location::orderBy('location_name', 'asc')->get();
+        return view('Owner.updateHotel', compact('hotel', 'locations'));
     }
 
     public function homeAdmin()

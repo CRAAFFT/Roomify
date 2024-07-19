@@ -42,4 +42,34 @@ class OwnerController extends Controller
             return redirect()->back()->with('error', 'Please upload an image');
         }
     }
+
+    public function updateHotel(Request $request, $hotel_id)
+    {
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'image' => 'file|required|mimes:png,jpg,jpeg|max:2048',
+                'hotel_name' => 'required',
+                'location' => 'required',
+            ]
+        );
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator->errors())->withInput($request->all());
+        }
+
+        if ($request->hasFile('image')) {
+            $image = $request->file('image')->store($request->hotel_name, 'public');
+    
+            $hotel = Hotel::find($hotel_id);
+            $hotel->hotel_name = $request->hotel_name;
+            $hotel->image = $image;
+            $hotel->location_id = $request->location;
+            $hotel->save();
+    
+            return redirect()->route('homeOwner');
+        } else {
+            return redirect()->back()->with('error', 'Please upload an image');
+        }
+    }
 }
