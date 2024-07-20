@@ -26,7 +26,10 @@ Route::get('/updateHotel/{hotel_id}', [PageController::class, 'updateHotel'])->n
 Route::put('/updateHotel/{hotel_id}', [OwnerController::class, 'updateHotel'])->name('putUpdateHotel');
 Route::delete('/deleteHotel/{hotel_id}', [OwnerController::class, 'deleteHotel'])->name('deleteHotel');
 Route::get('/addRoom/{hotel_id}', [PageController::class, 'addRoom'])->name('addRoom');
-Route::post('addRoom/{hotel_id}', [OwnerController::class, 'addRoom'])->name('postAddRoom');
+Route::post('/addRoom/{hotel_id}', [OwnerController::class, 'addRoom'])->name('postAddRoom');
+Route::get('/updateRoom/{room_id}', [PageController::class, 'updateRoom'])->name('updateRoom');
+Route::put('/updateRoom/{room_id}', [OwnerController::class, 'updateRoom'])->name('putUpdateRoom');
+Route::delete('/deleteRoom/{room_id}', [OwnerController::class, 'deleteRoom'])->name('deleteRoom');
 
 Route::get('/homeAdmin', [PageController::class, 'homeAdmin'])->name('homeAdmmin');
 

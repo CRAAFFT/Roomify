@@ -33,7 +33,7 @@ class PageController extends Controller
         $hotel = Hotel::find($hotel_id);
         if ($user->role == 'owner') 
         {
-            $rooms = Room::where('hotel_id', $hotel_id)->with('hotel')->get();
+            $rooms = Room::where('hotel_id', $hotel_id)->get();
             return view('Owner.detailHotel', compact('rooms', 'hotel'));
         } 
         else if ($user->role == 'admin') 
@@ -69,6 +69,12 @@ class PageController extends Controller
     {
         $hotel = Hotel::find($hotel_id);
         return view('Owner.addRoom', compact('hotel'));
+    }
+
+    public function updateRoom($room_id)
+    {
+        $room = Room::find($room_id)->with('hotel')->first();
+        return view('Owner.updateRoom', compact('room'));
     }
 
     public function homeAdmin()

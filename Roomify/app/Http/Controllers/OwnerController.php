@@ -119,4 +119,45 @@ class OwnerController extends Controller
         }
 
     }
+
+    public function updateRoom(Request $request, $room_id)
+    {
+        $validator = Validator::make($request->all(),
+            [
+                'code_room' =>'required',
+                'price' =>'required|numeric',
+                'capacity' =>'required|numeric',
+                'status' =>'required',
+                'type_room' =>'required',
+                'image' =>'required|file|mimes:jpg,png,jpeg|max:2024'
+            ]
+        );
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator->errors())->withInput($request->all());
+        }
+
+        $room = Room::find($room_id)->with('hotel')->first();
+
+        $image = $request->file('image')->store($room->hotel->hotel_name . '/' . $request->code_room, 'public');
+
+        $room->code_room = $request->code_room;
+        $room->price = $request->price;
+        $room->capacity = $request->capacity;
+        $room->status = $request->status;
+        $room->type_room = $request->type_room;
+        $room->image = $image;
+        $room->save();
+
+        return redirect()->route('detailHotel', $room->hotel->id);
+    }
+
+    public function deleteRoom($room_id)
+    {
+        $room = Room::find($room_id);
+        $hotel_id = $room->hotel_id;
+        $room->delete();
+
+        return redirect()->route('detailHotel', $hotel_id);
+    }
 }

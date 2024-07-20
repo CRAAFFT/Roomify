@@ -15,6 +15,12 @@
             <p>{{ $room->price }}</p>
             <p>{{ $room->capacity }}</p>
             <p>{{ $room->type_room }}</p>
+            <a href="{{ route('updateRoom', $room->id) }}">Update Room</a>
+            <form action="{{ route('deleteRoom', $room->id) }}" method="POST">
+                @csrf
+                @method('DELETE')
+                <button type="submit" onclick="return confirm('Are you sure?')">Delete Room</button>
+            </form>
         @endforeach
     </ul>
     <a href="{{ route('addRoom', $hotel->id) }}">Add Room</a>
