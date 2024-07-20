@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ManageController;
 use App\Http\Controllers\OwnerController;
 use Illuminate\Support\Facades\Route;
 
@@ -21,15 +22,15 @@ Route::get('/detail/{hotel_id}', [PageController::class, 'detailHotel'])->name('
 
 Route::get('/homeOwner', [PageController::class, 'homeOwner'])->name('homeOwner');
 Route::get('/addHotel', [PageController::class, 'addHotel'])->name('addHotel');
-Route::post('/addHotel', [OwnerController::class, 'addHotel'])->name('postAddHotel');
+Route::post('/addHotel', [ManageController::class, 'addHotel'])->name('postAddHotel');
 Route::get('/updateHotel/{hotel_id}', [PageController::class, 'updateHotel'])->name('updateHotel');
-Route::put('/updateHotel/{hotel_id}', [OwnerController::class, 'updateHotel'])->name('putUpdateHotel');
-Route::delete('/deleteHotel/{hotel_id}', [OwnerController::class, 'deleteHotel'])->name('deleteHotel');
+Route::put('/updateHotel/{hotel_id}', [ManageController::class, 'updateHotel'])->name('putUpdateHotel');
+Route::delete('/deleteHotel/{hotel_id}', [ManageController::class, 'deleteHotel'])->name('deleteHotel');
 Route::get('/addRoom/{hotel_id}', [PageController::class, 'addRoom'])->name('addRoom');
-Route::post('/addRoom/{hotel_id}', [OwnerController::class, 'addRoom'])->name('postAddRoom');
-Route::get('/updateRoom/{room_id}', [PageController::class, 'updateRoom'])->name('updateRoom');
-Route::put('/updateRoom/{room_id}', [OwnerController::class, 'updateRoom'])->name('putUpdateRoom');
-Route::delete('/deleteRoom/{room_id}', [OwnerController::class, 'deleteRoom'])->name('deleteRoom');
+Route::post('/addRoom/{hotel_id}', [ManageController::class, 'addRoom'])->name('postAddRoom');
+Route::get('/updateRoom/{room_id}', [PageController::class, 'updateRoom'])->name('updateRoom'); 
+Route::put('/updateRoom/{room_id}', [ManageController::class, 'updateRoom'])->name('putUpdateRoom');
+Route::delete('/deleteRoom/{room_id}', [ManageController::class, 'deleteRoom'])->name('deleteRoom');
 
 Route::get('/homeAdmin', [PageController::class, 'homeAdmin'])->name('homeAdmmin');
 

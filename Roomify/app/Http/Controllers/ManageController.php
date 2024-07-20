@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Models\Hotel;
 use App\Models\HotelAttachment;
 use App\Models\Room;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Nette\Utils\Validators;
 
-class OwnerController extends Controller
+class ManageController extends Controller
 {
     public function addHotel(Request $request)
     {
