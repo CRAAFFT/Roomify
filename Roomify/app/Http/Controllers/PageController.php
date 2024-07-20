@@ -31,19 +31,8 @@ class PageController extends Controller
     {
         $user = Auth::user();
         $hotel = Hotel::find($hotel_id);
-        if ($user->role == 'owner') 
-        {
-            $rooms = Room::where('hotel_id', $hotel_id)->get();
-            return view('Owner.detailHotel', compact('rooms', 'hotel'));
-        } 
-        else if ($user->role == 'admin') 
-        {
-            return view('Admin.detailHotel', compact('hotel'));
-        }
-        else
-        {
-            return view('Users.detailHotel', compact('hotel'));
-        }
+        $rooms = Room::where('hotel_id', $hotel_id)->get();
+        return view('detailHotel', compact('rooms', 'hotel'));
     }
 
     public function homeOwner()
@@ -56,31 +45,38 @@ class PageController extends Controller
     public function addHotel()
     {
         $locations = Location::orderBy('location_name', 'asc')->get();
-        return view('Owner.addHotel', compact('locations'));
+        return view('Manage.addHotel', compact('locations'));
     }
+
     public function updateHotel($hotel_id)
     {
         $hotel = Hotel::find($hotel_id);
         $locations = Location::orderBy('location_name', 'asc')->get();
-        return view('Owner.updateHotel', compact('hotel', 'locations'));
+        return view('Manage.updateHotel', compact('hotel', 'locations'));
     }
 
     public function addRoom($hotel_id)
     {
         $hotel = Hotel::find($hotel_id);
-        return view('Owner.addRoom', compact('hotel'));
+        return view('Manage.addRoom', compact('hotel'));
     }
 
     public function updateRoom($room_id)
     {
         $room = Room::find($room_id)->with('hotel')->first();
-        return view('Owner.updateRoom', compact('room'));
+        return view('Manage.updateRoom', compact('room'));
     }
 
     public function homeAdmin()
     {
         $user = Auth::user();
-        $hotels = Hotel::all();
+        $hotels = Hotel::with('location')->get();
         return view('Admin.home', compact('hotels'));
+    }
+
+    public function addLocation()
+    {
+        $locations = Location::orderBy('location_name', 'asc')->get();
+        return view('Admin.addLocation', compact('locations'));
     }
 }

@@ -20,6 +20,13 @@
         </select>
         <label for="image">Hotel Image</label>
         <input type="file" name="image">
+        @if (Auth::user()->role == 'admin')
+            <label for="status">Status</label>
+            <select name="status" id="status">
+                <option value="verified" @if($hotel->status == 'verified') selected @endif>Verified</option>
+                <option value="unverified" @if($hotel->status == 'unverified') selected @endif>Unverified</option>
+            </select>
+        @endif
         <button type="submit">Update Hotel</button>
     </form>
     @if ($errors->any())

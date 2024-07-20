@@ -15,7 +15,7 @@
         <label for="capacity">Capacity</label>
         <input type="number" name="capacity" value="{{ $room->capacity }}">
         <label for="image">Room Image</label>
-        <input type="file" name="image" required>
+        <input type="file" name="image">
         <label for="status">Status</label>
         <select name="status" id="status">
             <option value="available">Available</option>

@@ -24,6 +24,7 @@
         <select name="role" id="role">
             <option value="user">Client</option>
             <option value="owner">Owner</option>
+            <option value="admin">Admin</option>
         </select>
     </div>
     <div>

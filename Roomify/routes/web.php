@@ -18,9 +18,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [PageController::class, 'homeUser'])->name('homeUser');
+Route::get('/homeOwner', [PageController::class, 'homeOwner'])->name('homeOwner');
+Route::get('/homeAdmin', [PageController::class, 'homeAdmin'])->name('homeAdmin');
 Route::get('/detail/{hotel_id}', [PageController::class, 'detailHotel'])->name('detailHotel');
 
-Route::get('/homeOwner', [PageController::class, 'homeOwner'])->name('homeOwner');
 Route::get('/addHotel', [PageController::class, 'addHotel'])->name('addHotel');
 Route::post('/addHotel', [ManageController::class, 'addHotel'])->name('postAddHotel');
 Route::get('/updateHotel/{hotel_id}', [PageController::class, 'updateHotel'])->name('updateHotel');
@@ -31,8 +32,9 @@ Route::post('/addRoom/{hotel_id}', [ManageController::class, 'addRoom'])->name('
 Route::get('/updateRoom/{room_id}', [PageController::class, 'updateRoom'])->name('updateRoom'); 
 Route::put('/updateRoom/{room_id}', [ManageController::class, 'updateRoom'])->name('putUpdateRoom');
 Route::delete('/deleteRoom/{room_id}', [ManageController::class, 'deleteRoom'])->name('deleteRoom');
+Route::get('/addLocation', [PageController::class, 'addLocation'])->name('addLocation');
+Route::post('/addLocation', [ManageController::class, 'addLocation'])->name('postAddLocation');
 
-Route::get('/homeAdmin', [PageController::class, 'homeAdmin'])->name('homeAdmmin');
 
 Route::get('/register', [PageController::class, 'register'])->name('register');
 Route::post('/register', [AuthController::class, 'register'])->name('postRegister');

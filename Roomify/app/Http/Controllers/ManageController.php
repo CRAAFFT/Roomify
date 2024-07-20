@@ -5,10 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Hotel;
 use App\Models\HotelAttachment;
+use App\Models\Location;
 use App\Models\Room;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
-use Nette\Utils\Validators;
+use Exception;
 
 class ManageController extends Controller
 {
@@ -51,7 +52,7 @@ class ManageController extends Controller
         $validator = Validator::make(
             $request->all(),
             [
-                'image' => 'file|required|mimes:png,jpg,jpeg|max:2048',
+                'image' => 'file|mimes:png,jpg,jpeg|max:2048',
                 'hotel_name' => 'required',
                 'location' => 'required',
             ]
@@ -61,18 +62,29 @@ class ManageController extends Controller
             return redirect()->back()->withErrors($validator->errors())->withInput($request->all());
         }
 
-        if ($request->hasFile('image')) {
+        $hotel = Hotel::find($hotel_id);
+
+        if ($request->hasFile('image')) 
+        {
             $image = $request->file('image')->store($request->hotel_name, 'public');
-    
-            $hotel = Hotel::find($hotel_id);
-            $hotel->hotel_name = $request->hotel_name;
             $hotel->image = $image;
-            $hotel->location_id = $request->location;
-            $hotel->save();
-    
+        }
+
+        $hotel->hotel_name = $request->hotel_name;
+        $hotel->location_id = $request->location;
+        if ($request->status) 
+        {
+            $hotel->status = $request->status;
+        }
+        $hotel->save();
+
+        if (Auth::user()->role != 'admin')
+        {
             return redirect()->route('homeOwner');
-        } else {
-            return redirect()->back()->with('error', 'Please upload an image');
+        }
+        else if (Auth::user()->role == 'admin')
+        {
+            return redirect()->route('homeAdmin');
         }
     }
 
@@ -93,7 +105,7 @@ class ManageController extends Controller
                 'capacity' =>'required|numeric',
                 'status' =>'required',
                 'type_room' =>'required',
-                'image' =>'required|file|mimes:jpg,png,jpeg|max:2024'
+                'image' =>'file|mimes:jpg,png,jpeg|max:2024|required'
             ]
         );
 
@@ -129,7 +141,7 @@ class ManageController extends Controller
                 'capacity' =>'required|numeric',
                 'status' =>'required',
                 'type_room' =>'required',
-                'image' =>'required|file|mimes:jpg,png,jpeg|max:2024'
+                'image' =>'file|mimes:jpg,png,jpeg|max:2024'
             ]
         );
 
@@ -139,14 +151,17 @@ class ManageController extends Controller
 
         $room = Room::find($room_id)->with('hotel')->first();
 
-        $image = $request->file('image')->store($room->hotel->hotel_name . '/' . $request->code_room, 'public');
+        if ($request->hasFile('image')) 
+        {
+            $image = $request->file('image')->store($room->hotel->hotel_name . '/' . $request->code_room, 'public');
+            $room->image = $image;
+        }
 
         $room->code_room = $request->code_room;
         $room->price = $request->price;
         $room->capacity = $request->capacity;
         $room->status = $request->status;
         $room->type_room = $request->type_room;
-        $room->image = $image;
         $room->save();
 
         return redirect()->route('detailHotel', $room->hotel->id);
@@ -159,5 +174,24 @@ class ManageController extends Controller
         $room->delete();
 
         return redirect()->route('detailHotel', $hotel_id);
+    }
+    
+    public function addLocation(Request $request)
+    {
+        Location::create([
+            'location_name' => $request->location_name,
+        ]);
+        return redirect()->back()->with('success', 'Berhasil menambahkan ' . $request->location_name);
+    }
+
+    public function deleteLocation($location_id)
+    {
+        try {
+            $location = Location::find($location_id);
+            $location->delete();
+            return redirect()->route('addLocation');
+        } catch (Exception $e) {
+            return redirect()->route('addLocation')->with('error', $e->getMessage());
+        }
     }
 }

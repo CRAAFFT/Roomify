@@ -37,7 +37,7 @@ class AuthController extends Controller
         if ($request->role == 'owner')
         {
             return redirect()->route('homeOwner');
-        } 
+        }
 
         return redirect()->route('homeUser');
     }

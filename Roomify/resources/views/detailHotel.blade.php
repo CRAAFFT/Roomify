@@ -15,13 +15,19 @@
             <p>{{ $room->price }}</p>
             <p>{{ $room->capacity }}</p>
             <p>{{ $room->type_room }}</p>
+            @if (Auth::user->role == 'admin' || Auth::user->role == 'owner')
             <a href="{{ route('updateRoom', $room->id) }}">Update Room</a>
             <form action="{{ route('deleteRoom', $room->id) }}" method="POST">
                 @csrf
-                @method('DELETE')
-                <button type="submit" onclick="return confirm('Are you sure?')">Delete Room</button>
-            </form>
+                    @method('DELETE')
+                    <button type="submit" onclick="return confirm('Are you sure?')">Delete Room</button>
+                </form>
+            @endif
         @endforeach
     </ul>
-    <a href="{{ route('addRoom', $hotel->id) }}">Add Room</a>
+    @if (Auth::check())
+        @if (Auth::user()->role == 'admin' || Auth::user()->role == 'owner')
+            <a href="{{ route('addRoom', $hotel->id) }}">Add Room</a>
+        @endif
+    @endif
 @endsection
