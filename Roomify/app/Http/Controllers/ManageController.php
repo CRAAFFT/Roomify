@@ -9,6 +9,7 @@ use App\Models\Location;
 use App\Models\Room;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use App\Models\User;
 use Exception;
 
 class ManageController extends Controller
@@ -193,5 +194,13 @@ class ManageController extends Controller
         } catch (Exception $e) {
             return redirect()->route('addLocation')->with('error', $e->getMessage());
         }
+    }
+
+    public function deleteUser($user_id)
+    {
+        $user = User::find($user_id);
+        $user->delete();
+
+        return redirect()->route('homeAdmin');
     }
 }
